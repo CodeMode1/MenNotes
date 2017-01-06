@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css"/>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+            <a class="navbar-brand" href="#">Virtual Stand-up</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/newnote">New Note</a></li>
+                <li><a href="/discuss">Discuss</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="text-center">
+        <h1>Virtual Stand-up Meeting Notes</h1>
+        <p class="lead">Let's discuss the meeting. </p>
+    </div>
+
+    <div>
+        <!--<h2>Latest Notes</h2>-->
+        <div class="container">
+            <!--Filter notes list by member name-->
+            <div class="form-group">
+                <form action="discuss" method="post" onsubmit="coutInp()">
+                    <div class="row clearfix">
+                        <div>
+                            <!-- Button -->
+                            <button id="btnSubject" name="btnSubject" class="btn btn-primary" type="submit">Submit new Subject</button>
+                            <br><br>
+                            <div class="col-md-4">                          
+                                <label for="name">Enter the name of the discussion: </label>
+                                <label for="numSubjects">Enter the number of subjects: </label>
+                                <label for="author">Enter the name of the author: </label> 
+                            </div> 
+                            <div class="col-md-6" class="input">
+                                <input id="name" name="name"  class="form-control"/>
+                                <input id="numSubjects" name="numSubjects"  class="form-control" onchange="cratInputs()"/> 
+                                <input id="author" name="author"  class="form-control"/>
+                            </div> 
+                            <input id="inputVals" name="inputVals" class="form-control" type="hidden"/> 
+                            <div id="inputs" name="inputs">  
+                            </div>                
+                            <script>
+                            function coutInp(){
+                                var container1 = document.getElementsByClassName("daffyduck");
+                                var inputVals1 = document.getElementById("inputVals");
+                                var arrayInp = [];
+                                if(container1 == undefined)
+                                    console.log("undefined");
+                                else
+                                    console.log("ok");
+                                console.log("nb eleme " + container1.length);
+                                
+
+                                var i;
+                                for(i =0; i < container1.length; i++){
+                                    arrayInp.push(container1[i].value);
+                                    console.log(arrayInp);
+                                }
+                                inputVals1.value = JSON.stringify(arrayInp);
+                                
+                            }
+                            function cratInputs(){
+                                var num = document.getElementById("numSubjects").value;
+                                var container = document.getElementById("inputs");
+                                var inputVals = document.getElementById("inputVals");
+                                var arrayInput = [];
+                                
+                                while(container.hasChildNodes()){
+                                    container.removeChild(container.lastChild);
+                                }
+                                var title = document.createElement("H3");
+                                title.appendChild(document.createTextNode("Write subjects"));
+                                container.appendChild(title);
+
+                                for(var i =0; i < num; i++){
+                                    let input = document.createElement("input");
+                                    input.type="text";
+                                    input.name = "input" + i;
+                                    input.id = 'tes'+i;
+                                    input.className ="daffyduck";
+                                    //input.onclick= function() {setText(input)};
+                                    //input.class="inputChilds";
+                                    container.appendChild(input);
+                                    container.appendChild(document.createElement('br'));
+                                }
+                            }
+
+                               function setText(input){
+                                    //console.log(arrayInput.indexOf(input));
+                                    var newArray = [];
+                                    newArray.push(input.value);
+                                    //arrayInput.push(input.value);
+                                    arrayInput += newArray;
+                                    //console.log(arrayInput.indexOf(input));
+                                    //var inpValue = input.value;
+                                    //console.log(inpValue);
+                                    //arrayInput[arrayInput.indexOf(input)] = inpValue;
+                                    console.log(arrayInput);
+                                    inputVals.value = JSON.stringify(arrayInput);
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br />
+
+        <div class="container">
+        <div class="col-md-12 column list-group">
+            {% for subject in subjects %}
+            <div class="list-group-item">
+                <div>Note from <em><strong>{{ subject.author }}</strong></em> on: {{ subject.createdOn.toDateString() }}
+                    Name of discussion: <strong> {{ subject.name }}</strong>
+                     - How many subjects: <strong>{{ subject.numSubjects }}</strong>
+                     - Subjects: <strong>{{ subject.subjects.name }}</strong>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+     
+
+</div><!-- /.container -->
+</body>
+</html>

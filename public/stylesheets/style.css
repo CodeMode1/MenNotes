@@ -1,0 +1,31 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.text-center{
+  padding-top:2%;
+}
+
+.input > input{
+  display: block;
+  float:left;
+  clear: both;
+  width:80%;
+  border-radius: 2%;
+}
+
+label{
+  display: block;
+  float:left;
+
+}
+
+#inputs{
+  display: block;
+  float:left;
+}
